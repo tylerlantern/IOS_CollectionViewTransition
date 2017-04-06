@@ -1,1 +1,1 @@
-<h1>Cycling Progress Control</h1>
+<h1>CollectionView Transition Layout</h1>
