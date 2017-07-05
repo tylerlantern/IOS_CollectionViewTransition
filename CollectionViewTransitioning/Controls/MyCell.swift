@@ -9,7 +9,6 @@
 
 
 import UIKit;
-
 class CurrentLayout : NSObject {
     var layout :LayoutCollectionView
     private override init() {
@@ -18,55 +17,54 @@ class CurrentLayout : NSObject {
     }
     static let sharedInstance : CurrentLayout = CurrentLayout()
 }
-
 class MyCell: UICollectionViewCell {
     var indexPath : NSIndexPath?
-    var Thumbnail: UIImageView!
+    var thumbnail: UIImageView!
+    var title: UILabel!
     var layout : LayoutCollectionView!
+    let marginOffset : CGFloat = 10
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
-                self.layoutIfNeeded()
-        self.SetLayoutAccordingToDesiredLayout()
-
-        
+        self.layoutIfNeeded()
+        self.setLayoutAccordingToDesiredLayout()
     }
     required init?(coder aDecoder: NSCoder) {
-        
         super.init(coder: aDecoder)
-    }
-    override func awakeFromNib(){
-        super.awakeFromNib()
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
         self.contentView.clipsToBounds = true
-        Thumbnail = UIImageView()
-        Thumbnail.clipsToBounds = true
-        self.contentView.addSubview(Thumbnail)
-        SetLayoutAccordingToDesiredLayout()
-        
+        thumbnail = UIImageView()
+        title = UILabel()
+        thumbnail.clipsToBounds = true
+        //The subviews under this view are allowed to shrink, expand appropiately otherwise reused cells(dequeueReusableCell) can not transform its frame to another
+        self.contentView.autoresizingMask = [.flexibleWidth ,.flexibleHeight]
+        self.contentView.addSubview(thumbnail)
+        self.contentView.addSubview(title)
+        setLayoutAccordingToDesiredLayout()
     }
-    func SetLayoutAccordingToDesiredLayout(){
+    func setLayoutAccordingToDesiredLayout(){
         layout = CurrentLayout.sharedInstance.layout
         if CurrentLayout.sharedInstance.layout == LayoutCollectionView.oneColumn
             || CurrentLayout.sharedInstance.layout == LayoutCollectionView.twoColumn {
-            DoColumnLayout(DesiredLayout: CurrentLayout.sharedInstance.layout)
+            DoColumnLayout(desiredLayout: CurrentLayout.sharedInstance.layout)
         }else{
             DoRecordLayout()
         }
     }
-    
     func DoRecordLayout(){
         let cf = self.contentView.frame
-        Thumbnail.frame = CGRect(x: 0, y: 0, width: cf.height, height: cf.height)
+        thumbnail.frame = CGRect(x: 0, y: 0, width: cf.height, height: cf.height)
+        title.frame = CGRect(x: cf.height + marginOffset, y: marginOffset, width: cf.width - marginOffset * 2 , height: 30)
     }
-    func DoColumnLayout(DesiredLayout : LayoutCollectionView){
+    func DoColumnLayout(desiredLayout : LayoutCollectionView){
         let cf = self.contentView.frame
-        Thumbnail.frame = CGRect(x: 0, y: 0, width: cf.width, height: cf.width)
+        thumbnail.frame = CGRect(x: 0, y: 0, width: cf.width, height: cf.width)
+        title.frame = CGRect(x: marginOffset, y: cf.width + marginOffset , width: cf.width - marginOffset * 2 , height: 30)
     }
     override func prepareForReuse() {
-        self.Thumbnail.image = nil
+        self.thumbnail.image = nil
         super.prepareForReuse()
     }
 }

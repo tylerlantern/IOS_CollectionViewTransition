@@ -179,13 +179,13 @@ class MyCollectionViewLayout : UICollectionViewLayout{
     
     // MARK: -
     // MARK: Invalidate
-    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        let oldBounds : CGRect = self.collectionView!.bounds
-        if oldBounds.equalTo(newBounds){
-            return true
-        }
-        return false
-    }
+//    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+//        let oldBounds : CGRect = self.collectionView!.bounds
+//        if oldBounds.equalTo(newBounds){
+//            return true
+//        }
+//        return false
+//    }
     // MARK: -
     // MARK: Required methods
     
@@ -194,15 +194,15 @@ class MyCollectionViewLayout : UICollectionViewLayout{
     }
     
     
-    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        var AnAttribute  : UICollectionViewLayoutAttributes?
-        if elementKind == UICollectionElementKindSectionHeader {
-            AnAttribute = self.layoutSupplementaryAttributesByKind[elementKind]?[indexPath]
-        }else{
-            AnAttribute = self.layoutSupplementaryAttributesByKind[elementKind]?[indexPath]
-        }
-        return AnAttribute
-    }
+//    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+//        var AnAttribute  : UICollectionViewLayoutAttributes?
+//        if elementKind == UICollectionElementKindSectionHeader {
+//            AnAttribute = self.layoutSupplementaryAttributesByKind[elementKind]?[indexPath]
+//        }else{
+//            AnAttribute = self.layoutSupplementaryAttributesByKind[elementKind]?[indexPath]
+//        }
+//        return AnAttribute
+//    }
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return layoutCellAttributes[indexPath]
     }
@@ -215,16 +215,16 @@ class MyCollectionViewLayout : UICollectionViewLayout{
             
             
         }
-        for(key,value) in layoutSupplementaryAttributesByKind{
-            
-            if key == UICollectionElementKindSectionHeader {
-                for(_ ,value) in value{
-                    if rect.intersects(value.frame){
-                        AttibutesArray.append(value)
-                    }
-                }
-            }
-        }
+//        for(key,value) in layoutSupplementaryAttributesByKind{
+//            
+//            if key == UICollectionElementKindSectionHeader {
+//                for(_ ,value) in value{
+//                    if rect.intersects(value.frame){
+//                        AttibutesArray.append(value)
+//                    }
+//                }
+//            }
+//        }
         
         return AttibutesArray
     }
@@ -236,14 +236,6 @@ class MyCollectionViewLayout : UICollectionViewLayout{
         CurrentLayout.sharedInstance.layout = lastestLayout
     }
 
-//    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint) -> CGPoint {
-//        var rtnProposedContentoffset : CGPoint
-//        if(proposedContentOffset.y <= spacingTopFloatingInset){
-//            rtnProposedContentoffset = CGPoint(x: 0, y: 1)
-//        }else{
-//            rtnProposedContentoffset = proposedContentOffset
-//        }
-//        return rtnProposedContentoffset
-//    }
+
     
 }
